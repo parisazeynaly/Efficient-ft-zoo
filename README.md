@@ -6,5 +6,6 @@ Reproducible benchmark of LoRA / QLoRA / Adapters / Prompt-tuning on small NLP t
 ## Quickstart
 ```bash
 pip install -r requirements.txt
-python src/train.py --task sst2 --method lora --epochs 1 --batch_size 16
-
+python train.py --task sst2 --method lora --epochs 1 --batch_size 16
+python train.py --task agnews --method qlora --epochs 1 --batch_size 8
+python -m src.eval
