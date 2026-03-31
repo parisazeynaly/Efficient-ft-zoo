@@ -1,0 +1,34 @@
+.PHONY: help setup train-lora train-qlora train-adapter train-prompt benchmark lint
+
+PYTHON := python
+
+help:
+	@echo "Available commands:"
+	@echo "  make setup            Create venv and install dependencies"
+	@echo "  make train-lora       Train LoRA on SST-2"
+	@echo "  make train-qlora      Train QLoRA on AG News"
+	@echo "  make train-adapter    Train Adapter on SAMSum"
+	@echo "  make train-prompt     Train Prompt Tuning on SST-2"
+	@echo "  make benchmark        Run all methods and collect results"
+	@echo "  make lint             Run flake8"
+
+setup:
+	bash setup.sh
+
+train-lora:
+	$(PYTHON) train.py --config configs/lora_sst2.yaml
+
+train-qlora:
+	$(PYTHON) train.py --config configs/qlora_agnews.yaml
+
+train-adapter:
+	$(PYTHON) train.py --config configs/adapter_samsum.yaml
+
+train-prompt:
+	$(PYTHON) train.py --config configs/prompt_tuning_sst2.yaml
+
+benchmark: train-lora train-qlora train-adapter train-prompt
+	@echo "All benchmark runs complete. Check outputs/ for results."
+
+lint:
+	flake8 src/ train.py --max-line-length 100
